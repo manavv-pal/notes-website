@@ -2,13 +2,22 @@ import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import datetime
 
-app = Flask(__name__)
+import os
+
+base_dir = os.path.abspath(os.path.dirname(__file__))
+
+app = Flask(
+    __name__,
+    template_folder=os.path.join(base_dir, "templates"),
+    static_folder=os.path.join(base_dir, "static"),
+)
 app.secret_key = "secret123"
 
 
 # DATABASE INIT
 def init_db():
-    conn = sqlite3.connect("notes.db")
+    db_path = os.path.join(base_dir, "notes.db")
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
     # USERS TABLE
@@ -46,7 +55,8 @@ def home():
         return redirect("/login")
 
     category = request.form.get("category")
-    conn = sqlite3.connect("notes.db")
+    db_path = os.path.join(base_dir, "notes.db")
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
     if request.method == "POST":
@@ -67,7 +77,8 @@ def home():
         return redirect(url_for("home"))
 
     cursor.execute(
-        "SELECT * FROM notes WHERE user_id = ? ORDER BY favorite DESC, id DESC", (session["user_id"],)
+        "SELECT * FROM notes WHERE user_id = ? ORDER BY favorite DESC, id DESC",
+        (session["user_id"],),
     )
 
     notes = cursor.fetchall()
@@ -83,7 +94,8 @@ def signup():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        conn = sqlite3.connect("notes.db")
+        db_path = os.path.join(base_dir, "notes.db")
+        conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
 
         cursor.execute(
@@ -104,7 +116,8 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        conn = sqlite3.connect("notes.db")
+        db_path = os.path.join(base_dir, "notes.db")
+        conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
 
         cursor.execute(
@@ -137,7 +150,8 @@ def logout():
 def favorite(id):
     if "user_id" not in session:
         return redirect("/login")
-    conn = sqlite3.connect("notes.db")
+    db_path = os.path.join(base_dir, "notes.db")
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
     cursor.execute("SELECT favorite FROM notes WHERE id = ?", (id,))
@@ -158,7 +172,8 @@ def favorite(id):
 def delete(id):
     if "user_id" not in session:
         return redirect("/login")
-    conn = sqlite3.connect("notes.db")
+    db_path = os.path.join(base_dir, "notes.db")
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
     cursor.execute("DELETE FROM notes WHERE id = ?", (id,))
@@ -173,7 +188,8 @@ def delete(id):
 def edit(id):
     if "user_id" not in session:
         return redirect("/login")
-    conn = sqlite3.connect("notes.db")
+    db_path = os.path.join(base_dir, "notes.db")
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
     if request.method == "POST":
