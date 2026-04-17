@@ -1,0 +1,91 @@
+body{
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    transition: 0.3s;
+}
+
+/* Light mode */
+body.light{
+    background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    color: black;
+}
+
+/* Dark mode */
+body.dark{
+    background: #1e1e2f;
+    color: white;
+}
+
+.container{
+    width: 90%;
+    max-width: 450px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+body.dark .container{
+    background: rgba(0,0,0,0.6);
+}
+
+h2{
+    text-align: center;
+}
+
+input, textarea{
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 8px;
+    border: none;
+}
+
+button{
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover{
+    transform: scale(1.05);
+}
+
+.note{
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.7);
+    transition: 0.3s;
+}
+
+body.dark .note{
+    background: rgba(0,0,0,0.5);
+}
+
+.note:hover{
+    transform: translateY(-5px);
+}
+
+.note a{
+    margin-right: 10px;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+/* Mobile */
+@media(max-width:500px){
+    .container{
+        width: 95%;
+        margin-top: 20px;
+    }
+}
